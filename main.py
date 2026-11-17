@@ -1,5 +1,6 @@
 from colorama import init, Fore, Style
 from agent import agent_loop
+from hooks import trigger_user_prompt_hooks
 
 init(autoreset=True)
 
@@ -18,6 +19,8 @@ def main():
 
         if query.strip().lower() in ["q", "quit", "exit"]:
             break
+
+        query = trigger_user_prompt_hooks(query)
 
         # 将用户问题添加到历史记录中
         history.append({"role": "user", "content": query})

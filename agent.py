@@ -5,6 +5,7 @@ from llm import call_llm
 from prompt import get_system_prompt
 from tools.executor import execute_tool
 from permission import check_permission
+from hooks import trigger_hooks
 
 
 def agent_loop(history: list[dict]):
@@ -25,7 +26,10 @@ def agent_loop(history: list[dict]):
 
         # 如果 LLM 模型没有工具调用，则退出循环
         if not choice.message.tool_calls:
-            break
+            force = trigger_hooks("Stop", history)
+            if force:
+                history.append({"role": "user", "content": force})
+                continue
 
         for tool_call in choice.message.tool_calls:
             tool_name = tool_call.function.name
@@ -36,20 +40,24 @@ def agent_loop(history: list[dict]):
                 + Style.RESET_ALL
             )
 
-            permission_check = check_permission(tool_name, tool_args)
+            blocked = trigger_hooks("PreToolUse", tool_name, tool_args)
 
-            if permission_check is not None:
+            if blocked:
                 history.append(
                     {
                         "role": "tool",
                         "tool_call_id": tool_call.id,
-                        "content": permission_check,
+                        "content": blocked,
                     }
                 )
                 continue
 
             output = execute_tool(tool_name, tool_args)
+
+            trigger_hooks("PostToolUse", tool_name, tool_args, output)
+
             print(Fore.GREEN + f"Tool output: {output}" + Style.RESET_ALL)
+
             history.append(
                 {"role": "tool", "tool_call_id": tool_call.id, "content": output}
             )
