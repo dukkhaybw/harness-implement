@@ -13,7 +13,7 @@ def tool(name: str, description: str, parameters: dict, required: list[str]) -> 
     }
 
 
-TOOLS = [
+BASE_TOOLS = [
     tool(
         "bash",
         "执行一条 shell 命令。",
@@ -70,5 +70,17 @@ TOOLS = [
             }
         },
         ["tasks"],
+    ),
+]
+
+TOOLS = [
+    *BASE_TOOLS,
+    tool(
+        "spawn_subagent",
+        "启动子 Agent 处理复杂子任务。仅返回最终结论。",
+        {
+            "description": {"type": "string"},
+        },
+        ["description"],
     ),
 ]
