@@ -4,6 +4,8 @@ import subprocess
 from utils import decode_subprocess_output, safe_path
 from config import WORKING_DIR, TEXT_ENCODING
 
+CURRENT_TODOS = []
+
 
 def bash_handler(command: str) -> str:
     if os.name == "nt" and command.strip().lower() == "date":
@@ -112,10 +114,42 @@ def glob_file_handler(pattern: str) -> str:
         return f"Error: {e}"
 
 
+def todo_write_handler(tasks: list[dict]) -> str:
+    """
+    根据任务列表生成待办事项列表
+    Args:
+        tasks: 任务列表
+    Returns:
+        str: 待办事项列表
+    """
+    global CURRENT_TODOS
+
+    for i, task in enumerate(tasks):
+        if "content" not in task or "status" not in task:
+            return f"Error: 任务 {i} 缺少 content 或 status 字段"
+        if task["status"] not in ["pending", "in_progress", "completed"]:
+            return f"Error: 任务 {i} 的 status 字段无效"
+
+    CURRENT_TODOS = tasks
+
+    lines = ["\n\x1b[33m## 当前任务\x1b[0m"]
+    for t in CURRENT_TODOS:
+        icon = {
+            "pending": "\x1b[33m等待中\x1b[0m",
+            "in_progress": "\x1b[36m处理中\x1b[0m",
+            "completed": "\x1b[32m已完成\x1b[0m",
+        }[t["status"]]
+        lines.append(f"  [{icon}] {t['content']}")
+    print("\n".join(lines))
+
+    return f"待办事项列表已生成\n" f"当前待办事项列表：\n" f"{str(CURRENT_TODOS)}"
+
+
 TOOL_HANDLERS = {
     "bash": bash_handler,
     "read_file": read_file_handler,
     "write_file": write_file_handler,
     "edit_file": edit_file_handler,
     "glob_file": glob_file_handler,
+    "todo_write": todo_write_handler,
 }

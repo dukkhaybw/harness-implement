@@ -45,8 +45,8 @@ def permission_hook(tool_name: str, args: dict):
 
 
 def log_hook(event: str, args: dict):
-    args_preview = str(list(args.values())[:2])[:60]
-    print(f"\x1b[90m[HOOK] {event}({args_preview})\x1b[0m")
+    args_preview = str(list(args.values())[:2])
+    print(f"\x1b[90m[LOG HOOK] {event}({args_preview})\x1b[0m")
     return None
 
 

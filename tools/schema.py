@@ -48,4 +48,27 @@ TOOLS = [
         {"pattern": {"type": "string"}},
         ["pattern"],
     ),
+    tool(
+        "todo_write",
+        "根据复杂的分步骤的任务，生成一个待办事项列表",
+        {
+            "tasks": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "task": {
+                            "type": "string",
+                        },
+                        "status": {
+                            "type": "string",
+                            "enum": ["pending", "in_progress ", "completed"],
+                        },
+                    },
+                    "required": ["task", "status"],
+                },
+            }
+        },
+        ["tasks"],
+    ),
 ]

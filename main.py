@@ -13,7 +13,6 @@ def main():
     while True:
         try:
             query = input(Fore.GREEN + ">> " + Style.RESET_ALL)
-
         except (EOFError, KeyboardInterrupt):
             break
 
