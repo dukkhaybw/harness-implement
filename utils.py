@@ -20,3 +20,22 @@ def safe_path(path: str) -> Path:
         raise ValueError(f"路径超出工作区：{path}")
 
     return path
+
+
+def parse_frontmatter(text: str) -> tuple[dict, str]:
+
+    if not text.startswith("---"):
+        return {}, text
+
+    parts = text.split("---", 2)
+
+    if len(parts) < 3:
+        return {}, text
+
+    meta = {}
+    for line in parts[1].splitlines():
+        if ":" in line:
+            key, value = line.split(":", 1)
+            meta[key.strip()] = value.strip().strip('"').strip("'")
+
+    return meta, parts[2].strip()

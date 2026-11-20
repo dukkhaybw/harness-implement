@@ -19,3 +19,5 @@ client = OpenAI(
     api_key=os.getenv("OPENAI_API_KEY"),
     base_url=os.getenv("OPENAI_BASE_URL"),
 )
+
+SKILLS_DIR = WORKING_DIR / "skills"

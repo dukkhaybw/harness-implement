@@ -3,6 +3,7 @@ import glob as g
 import subprocess
 from utils import decode_subprocess_output, safe_path
 from config import WORKING_DIR, TEXT_ENCODING
+from skills import load_skill
 
 CURRENT_TODOS = []
 
@@ -152,4 +153,5 @@ TOOL_HANDLERS = {
     "edit_file": edit_file_handler,
     "glob_file": glob_file_handler,
     "todo_write": todo_write_handler,
+    "load_skill": load_skill,
 }

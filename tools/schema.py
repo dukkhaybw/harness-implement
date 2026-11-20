@@ -83,4 +83,10 @@ TOOLS = [
         },
         ["description"],
     ),
+    tool(
+        "load_skill",
+        "按名称加载技能的完整内容。",
+        {"name": {"type": "string"}},
+        ["name"],
+    ),
 ]
