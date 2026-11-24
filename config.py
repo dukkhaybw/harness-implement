@@ -21,3 +21,17 @@ client = OpenAI(
 )
 
 SKILLS_DIR = WORKING_DIR / "skills"
+
+MAX_BYTES = 10000
+
+PERSIST_THRESHOLD = 1000
+
+TOOL_RESULTS_DIR = WORKING_DIR / ".task_outputs" / "tool_results"
+
+MAX_MESSAGES = 50
+
+KEEP_RECENT = 10
+
+CONTEXT_LIMIT = 10000
+
+TRANSCRIPT_DIR = WORKING_DIR / ".transcripts"

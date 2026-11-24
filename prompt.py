@@ -9,6 +9,7 @@ PROMPT_SECTIONS = {
         f"所有破坏性操作需要用户批准。"
         f"针对复杂的需要多个步骤完成的任务，请先使用工具todo_write生成待办事项列表，然后根据待办事项列表完成任务。"
         f"遇到复杂子问题时，使用 spawn_subagent 工具派生子Agent。"
+        f"上下文过长时可使用 compact 工具。"
     ),
     "workspace": f"工作目录: {WORKING_DIR}",
     "skill": "需要完整技术说明时，使用 load_skill 加载相关文档。",

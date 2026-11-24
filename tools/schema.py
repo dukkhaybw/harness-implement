@@ -89,4 +89,10 @@ TOOLS = [
         {"name": {"type": "string"}},
         ["name"],
     ),
+    tool(
+        "compact",
+        "摘要较早对话以释放上下文空间。",
+        {},
+        [],
+    ),
 ]
